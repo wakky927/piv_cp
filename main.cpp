@@ -1,6 +1,5 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
-#include <boost/optional.hpp>
 #include <chrono>
 #include <cmath>
 #include <iostream>
@@ -17,13 +16,18 @@ static void meshgrid(const int &wid, const int &hei, const int &nx, const int &n
 static void piv(const Mat1f &ma, const Mat1f &mb, Mat1f &dX, Mat1f &dY, const int &wid, const int &hei, const int &t,
                 const int &s, const int &gx, const int &gy, const int &th);
 
-int main() {
+int main(int argc, char* argv[]) {
     // program start!
     cout << "\nprogram start!" << endl;
 
     // read config file
     ptree pt;
-    read_ini("../config.ini", pt);
+    if (argc < 1) {
+        read_ini(argv[1], pt);
+    } else {
+        read_ini("../test.ini", pt);
+    }
+
 
     string dir_in = pt.get_optional<string>("Path.DIR_IN").get();
     string dir_out = pt.get_optional<string>("Path.DIR_OUT").get();
@@ -138,7 +142,6 @@ static void piv(const Mat1f &ma, const Mat1f &mb, Mat1f &dX, Mat1f &dY, const in
     float x_sub, y_sub;
 
     for (int y = 0; y < gy; ++y) {
-        int a = 0;
         for (int x = 0; x < gx; ++x) {
             i = X(y, x) + s + t;
             j = Y(y, x) + s + t;
