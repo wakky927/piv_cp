@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 
     // read config file
     ptree pt;
-    if (argc < 1) {
+    if (argc > 1) {
         read_ini(argv[1], pt);
     } else {
         read_ini("../test.ini", pt);
